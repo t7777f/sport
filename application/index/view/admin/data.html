@@ -1,0 +1,80 @@
+{extend name="admin/base"/}
+{block name="title"}网站数据-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                网站数据
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>仪表盘</li>
+                <li><a class="link-effect" href="">网站数据</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-6 col-lg-3">
+            <div class="block">
+                <table class="block-table text-center">
+                    <tbody>
+                    <tr>
+                        <td class="bg-gray-darker" style="width: 50%;">
+                            <div class="push-30 push-30-t">
+                                <i class="si si-speech fa-3x text-white-op"></i>
+                            </div>
+                        </td>
+                        <td style="width: 50%;">
+                            <div class="h1 font-w700"><span class="h2 text-muted">{:db('kms')->count()}</span> 个</div>
+                            <div class="h5 text-muted text-uppercase push-5-t">总卡密数量</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="block">
+                <table class="block-table text-center">
+                    <tbody>
+                    <tr>
+                        <td style="width: 50%;">
+                            <div class="h1 font-w700"><span class="h2 text-muted">{:db('user')->count()}</span> 人</div>
+                            <div class="h5 text-muted text-uppercase push-5-t">总用户数</div>
+                        </td>
+                        <td class="bg-success" style="width: 50%;">
+                            <div class="push-30 push-30-t">
+                                <i class="si si-wallet fa-3x text-white-op"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="block">
+                <table class="block-table text-center">
+                    <tbody>
+                    <tr>
+                        <td style="width: 50%;">
+                            <div class="h1 font-w700"><span class="h2 text-muted">{:db('uin')->count()}</span> 个</div>
+                            <div class="h5 text-muted text-uppercase push-5-t">总账号数量</div>
+                        </td>
+                        <td class="bg-info" style="width: 50%;">
+                            <div class="push-30 push-30-t">
+                                <i class="si si-social-twitter fa-3x text-white-op"></i>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,96 @@
+{extend name="admin/base"/}
+{block name="title"}卡密管理-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                卡密管理
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>仪表盘</li>
+                <li><a class="link-effect" href="">卡密管理</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="content">
+    {if condition="isset($msg)"}
+    <div class="col-xs-12">{$msg}</div>
+    {/if}
+    <div class="col-md-12 col-xs-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">卡密生成</h3>
+            </div>
+            <div class="panel-body">
+                <form  role="form" class="form-horizontal" method="post">
+                    <div class="list-group-item">
+                        <div class="input-group col-xs-12">
+                            <input type="text" class="form-control" name="num" value="1">
+
+                            <div class="input-group-addon ">个能激活</div>
+                            <input type="text" class="form-control" name="value" value="1">
+
+                            <div class="input-group-addon ">
+                                <select name="kind">
+                                    <option value="1">个月VIP</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="list-group-item">
+                        <button type="submit" class="btn btn-primary btn-block" onClick="if(!confirm('确认生成？')){return false;}">确认生成</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-xs-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">卡密列表<span class="pull-right">共{:db('kms')->count()}个卡密,{:db('kms')->where('isuse',0)->count()}个可用卡密</span></h3>
+
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-vcenter">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>卡密</th>
+                            <th>月数</th>
+                            <th>生成人</th>
+                            <th>状态</th>
+                            <th>类型</th>
+                            <th>使用者uid</th>
+                            <th>使用时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list" id="row"}
+                        <tr>
+                            <td>{$row.kid}</td>
+                            <td>{$row.km}</td>
+                            <td>{$row.ms} 月</td>
+                            <td>管理员</td>
+                            <td>{if $row.isuse==1}已使用{else}未使用{/if}</td>
+                            <td>VIP卡</td>
+                            <td>{:getuser($row['uid'],'user')}[{$row.uid}]</td>
+                            <td>{$row.usetime}</td>
+                            <td><a href="{:url('km',['do'=>'dell','kid'=>$row.kid])}" class="btn btn-xs btn-danger">删除</a></td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                    {$list->render()}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

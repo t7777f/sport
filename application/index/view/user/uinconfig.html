@@ -1,0 +1,281 @@
+{extend name="user/base"/}
+{block name="title"}账号列表-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                {:input('uin')}
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>仪表盘</li>
+                <li><a class="link-effect" href="">账号列表</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8 col-md-12 col-lg-offset-2">
+            <div class="panel panel-default">
+                <div style="background-image: url('/assets/img/photos/photo8@2x.jpg')" class="panel-body bg-center">
+                    <div class="row row-table">
+                        <div class="col-xs-12 text-center text-white">
+              <span class="qqtouxiang">
+                <img src="/assets/img/avatars/avatar13.jpg" class="img-thumbnail img-circle thumb128 mv"></span>
+                            <br><br>
+
+                            <h4 class="mv-sm qqhao">{$row.uin}</h4></div>
+                    </div>
+                </div>
+                <div class="panel-body text-center bg-gray-darker">
+                    <div class="row row-table">
+                        {if $row.skcode==1}
+                        <h4 class="text-info m0">账号在线状态：正常</h4>
+                        <div class="mt-sm">状态若显示失效请及时更新防止功能不运行</div>
+                        {else}
+                        <h4 class="text-danger m0">账号在线状态：失效</h4>
+                        <div class="mt-sm">状态若显示失效请及时更新防止功能不运行</div>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <ul class="nav nav-tabs nav-tabs-alt nav-justified" data-toggle="tabs">
+                    <li class="active">
+                        <a href="#btabs-alt-static-justified-home"><i class="si si-cloud-download"></i> 日志运行</a>
+                    </li>
+                    <li class="">
+                        <a href="#btabs-alt-static-justified-profile"><i class="fa fa-pencil"></i> 修改步数</a>
+                    </li>
+                    <li>
+                        <a href="#btabs-alt-static-justified-settings"><i class="fa fa-cog"></i> 修改密码</a>
+                    </li>
+                </ul>
+                <div class="block-content tab-content">
+                    <div class="tab-pane active" id="btabs-alt-static-justified-home">
+                        {volist name="log" id="log"}
+                        <div class="alert alert-success alert-dismissable">
+                            {$log.log}<br>{$log.logtime}
+                        </div>
+                        {/volist}
+                    </div>
+                    <div class="tab-pane" id="btabs-alt-static-justified-profile">
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h3 class="font-w300 push-15">提示</h3>
+                            <p>当前步数 <a class="alert-link" href="javascript:void(0)">{$row.steps}</a> 步!</p>
+                        </div>
+                        <div class="form-group">
+                            <label>修改步数</label>
+                            <input class="form-control" type="text" id="steps" name="steps" placeholder="请输入修改的步数..">
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-sm btn-primary" type="submit" href="javascript:setsteps('{$row.qid}')">修 改</a>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="btabs-alt-static-justified-settings">
+                        <form id="doForm" onsubmit="return false" action="#" method="post">
+                        <div class="alert alert-success alert-dismissable">
+                            <div class="form-group">
+                                <input style="display:none" name="qid" id="qid" value="{$row.qid}">
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h3 class="font-w300 push-15">提示</h3>
+                            <p>请去添加账号页面进行更新(输入更新账号和密码添加即可)</p>
+                            <p>在到期范围内才可使用自动刷步数</p>
+                            <p>执行刷步数时，会取 +-300 的随机数</p>
+                        </div>
+                        <div class="form-group">
+                                <label>状态</label>
+                                <select name="status" id="status" class="form-control" >
+                                    {if $row.skcode==1}
+                                    <option value="1" selected>启用</option>
+                                    <option value="0" >禁用</option>
+                                    {else}
+                                    <option value="1" >启用</option>
+                                    <option value="0" selected>禁用</option>
+                                    {/if}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>账号</label>
+                                <input class="form-control" type="text" id="uin" name="uin" placeholder="请输入账号" value="{$row.uin}">
+                            </div>
+                            <div class="form-group">
+                                <label>密码</label>
+                                <input class="form-control" type="text" id="pwd" name="pwd" placeholder="请输入密码" value="{$row.pwd}">
+                            </div>
+                                                        <div class="form-group">
+                                <label>0点-1点</label>
+                                <input type="number" autocomplete="off" id="hour_0" value="{$row.hour_0}" name="hour_0"
+                                       class="form-control" placeholder="请输入0点-1点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>1点-2点</label>
+                                <input type="number" autocomplete="off" id="hour_1" value="{$row.hour_1}" name="hour_1"
+                                       class="form-control" placeholder="请输入1点-2点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>2点-3点</label>
+                                <input type="number" autocomplete="off" id="hour_2" value="{$row.hour_2}" name="hour_2"
+                                       class="form-control" placeholder="请输入2点-3点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>3点-4点</label>
+                                <input type="number" autocomplete="off" id="hour_3" value="{$row.hour_3}" name="hour_3"
+                                       class="form-control" placeholder="请输入3点-4点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>4点-5点</label>
+                                <input type="number" autocomplete="off" id="hour_4" value="{$row.hour_4}" name="hour_4"
+                                       class="form-control" placeholder="请输入4点-5点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>5点-6点</label>
+                                <input type="number" autocomplete="off" id="hour_5" value="{$row.hour_5}" name="hour_5"
+                                       class="form-control" placeholder="请输入5点-6点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>6点-7点</label>
+                                <input type="number" autocomplete="off" id="hour_6" value="{$row.hour_6}" name="hour_6"
+                                       class="form-control" placeholder="请输入6点-7点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>7点-8点</label>
+                                <input type="number" autocomplete="off" id="hour_7" value="{$row.hour_7}" name="hour_7"
+                                       class="form-control" placeholder="请输入7点-8点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>8点-9点</label>
+                                <input type="number" autocomplete="off" id="hour_8" value="{$row.hour_8}" name="hour_8"
+                                       class="form-control" placeholder="请输入8点-9点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>9点-10点</label>
+                                <input type="number" autocomplete="off" id="hour_9" value="{$row.hour_9}" name="hour_9"
+                                       class="form-control" placeholder="请输入9点-10点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>10点-11点</label>
+                                <input type="number" autocomplete="off" id="hour_10" value="{$row.hour_10}" name="hour_10"
+                                       class="form-control" placeholder="请输入10点-11点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>11点-12点</label>
+                                <input type="number" autocomplete="off" id="hour_11" value="{$row.hour_11}" name="hour_11"
+                                       class="form-control" placeholder="请输入11点-12点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>12点-13点</label>
+                                <input type="number" autocomplete="off" id="hour_12" value="{$row.hour_12}" name="hour_12"
+                                       class="form-control" placeholder="请输入12点-13点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>13点-14点</label>
+                                <input type="number" autocomplete="off" id="hour_13" value="{$row.hour_13}" name="hour_13"
+                                       class="form-control" placeholder="请输入13点-14点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>14点-15点</label>
+                                <input type="number" autocomplete="off" id="hour_14" value="{$row.hour_14}" name="hour_14"
+                                       class="form-control" placeholder="请输入14点-15点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>15点-16点</label>
+                                <input type="number" autocomplete="off" id="hour_15" value="{$row.hour_15}" name="hour_15"
+                                       class="form-control" placeholder="请输入15点-16点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>16点-17点</label>
+                                <input type="number" autocomplete="off" id="hour_16" value="{$row.hour_16}" name="hour_16"
+                                       class="form-control" placeholder="请输入16点-17点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>17点-18点</label>
+                                <input type="number" autocomplete="off" id="hour_17" value="{$row.hour_17}" name="hour_17"
+                                       class="form-control" placeholder="请输入17点-18点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>18点-19点</label>
+                                <input type="number" autocomplete="off" id="hour_18" value="{$row.hour_18}" name="hour_18"
+                                       class="form-control" placeholder="请输入18点-19点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>19点-20点</label>
+                                <input type="number" autocomplete="off" id="hour_19" value="{$row.hour_19}" name="hour_19"
+                                       class="form-control" placeholder="请输入19点-20点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>20点-21点</label>
+                                <input type="number" autocomplete="off" id="hour_20" value="{$row.hour_20}" name="hour_20"
+                                       class="form-control" placeholder="请输入20点-21点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>21点-22点</label>
+                                <input type="number" autocomplete="off" id="hour_21" value="{$row.hour_21}" name="hour_21"
+                                       class="form-control" placeholder="请输入21点-22点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>22点-23点</label>
+                                <input type="number" autocomplete="off" id="hour_22" value="{$row.hour_22}" name="hour_22"
+                                       class="form-control" placeholder="请输入22点-23点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <label>23点-24点</label>
+                                <input type="number" autocomplete="off" id="hour_23" value="{$row.hour_23}" name="hour_23"
+                                       class="form-control" placeholder="请输入23点-24点刷入的步数" min="0" step="1" max="99980">
+                            </div>
+                                                        <div class="form-group">
+                                <a class="btn btn-sm btn-primary" type="button" href="javascript:update()">修改</a>
+                            </div>
+                         </form>
+                    </div>
+                </div>
+            </div>
+            <!-- END Block Tabs Justified Default Style -->
+        </div>
+    </div>
+</div>
+{/block}
+{block name="foot"}
+<script>
+    function update(){
+        $.ajax({
+            type:"post",
+            url:"/ajax?act=update",
+            data:$('#doForm').serialize(),
+            dataType:"json",
+            success:function(data){
+                if(data.code==0){
+                    layer.msg(data.msg,{icon:1,shade:0.3});
+                    setTimeout("top.location.href = '/user/uinlist'",3000);
+                }else{
+                    layer.msg(data.msg,{icon:2,shade:0.3});
+                }
+            }
+        });
+    }
+    function setsteps(qid){
+        $.ajax({
+            type:"post",
+            url:"/ajax?act=setsteps",
+            data:{
+                qid:qid,
+                steps:$("#steps").val()
+            },
+            dataType:"json",
+            success:function(data){
+                if(data.code==0){
+                    layer.msg(data.msg,{icon:1,shade:0.3});
+                    setTimeout("top.location.href = '/user/uinlist'",3000);
+                }else{
+                    layer.msg(data.msg,{icon:2,shade:0.3});
+                }
+            }
+        });
+    }
+</script>
+{/block}

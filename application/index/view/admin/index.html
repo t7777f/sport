@@ -1,0 +1,82 @@
+{extend name="admin/base"/}
+{block name="title"}仪表盘-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                仪表盘
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>仪表盘</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="col-md-12 col-xs-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">网站设置</h3>
+            </div>
+            <div class="panel-body">
+                <form id="set" onclick="return;">
+                    <div class="input-group">
+                        <div class="input-group-addon">网站标题</div>
+                        <input type="text" class="form-control" id="title" name="title" value="{:config('title')}">
+                    </div><br>
+                    <div class="input-group">
+                        <div class="input-group-addon">站长QQ</div>
+                        <input type="text" class="form-control" id="qq" name="qq" value="{:config('qq')}">
+                    </div><br>
+                    <div class="input-group">
+                        <div class="input-group-addon">站长昵称</div>
+                        <input type="text" class="form-control" id="adminuser" name="adminuser" value="{:config('adminuser')}">
+                    </div><br>
+                    <div class="input-group">
+                        <div class="input-group-addon">用户中心公告</div>
+                        <textarea class="form-control" id="usergg" name="usergg">{:config('usergg')}</textarea>
+                    </div><br>
+                    <div class="input-group">
+                        <div class="input-group-addon">添加公告</div>
+                        <textarea class="form-control" id="addgg" name="addgg">{:config('addgg')}</textarea>
+                    </div><br>
+                    <div class="input-group">
+                        <div class="input-group-addon">卡密公告</div>
+                        <textarea class="form-control" id="kmgg" name="kmgg">{:config('kmgg')}</textarea>
+                    </div><br>
+                    <div class="input-group">
+                        <div class="input-group-addon">后台秘密</div>
+                        <input type="text" class="form-control" id="admin_pwd" name="admin_pwd" placeholder="不修改为空">
+                    </div><br>
+                    <a class="btn btn-info btn-block" onclick="submit();">保存</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="foot"}
+<script type="text/javascript">
+    function submit(){
+        layer.load();
+        $.ajax({
+            type:"post",
+            url:"{:url('index')}",
+            data:$('#set').serialize(),
+            dataType:"json",
+            success:function(data){
+                layer.close(layer.load());
+                if(data.code==0){
+                    layer.msg(data.msg,{icon:1,shade:0.3});
+                    setTimeout("top.location.href = '/admin'",3000);
+                }else{
+                    layer.alert(data.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,79 @@
+{extend name="user/base"/}
+{block name="title"}使用卡密-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                使用卡密
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>仪表盘</li>
+                <li><a class="link-effect" href="">使用卡密</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="col-sm-6 col-lg-6">
+        <a class="block" href="javascript:void(0)">
+            <div class="block-header">
+                <h3 class="block-title">使用卡密公告</h3>
+            </div>
+            <div class="block-content">
+                <div class="block">
+                    {:config('kmgg')}
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        <a class="block">
+            <div class="block-header">
+                <h3 class="block-title">使用卡密</h3>
+            </div>
+                <div class="list-group-item" id="load">您购买的卡密可以在这里输入后使用</div>
+                <div class="list-group-item">
+                    <div class="input-group">
+                        <div class="input-group-addon">卡密</div>
+                        <input type="text" class="form-control" id="kms" name="kms" value="" placeholder="请输入卡密"></div>
+                </div>
+                <div class="list-group-item">
+                    <label class="btn btn-info btn-block" onclick="autlkm();">确定使用</label>
+                </div>
+        </a>
+    </div>
+</div>
+
+{/block}
+{block name="foot"}
+<script>
+    function autlkm() {
+        var url = '/ajax?act=shop';
+        var kms = $("#kms").val();
+        if (!kms || kms == '') {
+            layer.msg("请先输入卡密!");
+            return false;
+        }
+        layer.load();
+        $.ajax({
+            type: "post",
+            url: "/ajax?act=shop",
+            data: {
+                kms: kms
+            },
+            dataType: "json",
+            success: function (data) {
+                layer.close(layer.load());
+                if (data.code == 1) {
+                    layer.msg(data.msg, {icon: 1, shade: 0.3});
+                } else {
+                    layer.alert(data.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}

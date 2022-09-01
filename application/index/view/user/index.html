@@ -1,0 +1,78 @@
+{extend name="user/base"/}
+{block name="title"}仪表盘-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-image" style="background-image: url('/assets/img/photos/photo8@2x.jpg');">
+    <div class="push-50-t push-15 clearfix">
+        <div class="push-15-r pull-left animated fadeIn">
+            <img class="img-avatar img-avatar-thumb" src="https://q4.qlogo.cn/headimg_dl?dst_uin={$user.qq}&spec=100" alt="">
+        </div>
+        <h1 class="h2 text-white push-5-t animated zoomIn">{$user.user}</h1>
+        <h2 class="h5 text-white-op animated zoomIn">
+            {if $user.vipend == ""}
+            未开通会员
+            {else}
+            会员到期:{$user.vipend}
+            {/if}
+        </h2>
+    </div>
+</div>
+<!-- END Page Header -->
+
+<!-- Stats -->
+<div class="content">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- News -->
+            <div class="block">
+                <div class="block-header">
+                    <h3 class="block-title"> 本站公告</h3>
+                </div>
+                <div class="block-content">
+                    <ul class="list list-timeline pull-t">
+
+                        <!-- System Notification -->
+                        {:config('usergg')}
+                        <!-- END System Notification -->
+                    </ul>
+                </div>
+            </div>
+            <!-- END News -->
+        </div>
+        <div class="col-lg-4">
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- Author of the Month -->
+                        <a class="block block-link-hover2">
+                            <div class="block-header">
+                                <h3 class="block-title text-center">上级客服</h3>
+                            </div>
+                            <div class="block-content block-content-full text-center bg-image" style="background-image: url('/assets/img/photos/photo8@2x.jpg');">
+                                <div>
+                                    <img class="img-avatar img-avatar96 img-avatar-thumb" src="https://q4.qlogo.cn/headimg_dl?dst_uin=2248186422&spec=100" alt="">
+                                </div>
+                                <div class="h5 text-white push-15-t push-5">{:config('adminuser')}</div>
+                                <div class="h5 text-white-op"></div>
+                            </div>
+                            <div class="block-content">
+                                <div class="row items-push text-center">
+                                    <div class="col-xs-6">
+                                        <div class="push-5"><i class="fa fa-qq fa-2x"></i></div>
+                                        <div class="h5 font-w300 text-muted"> {:config('qq')}</div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="push-5"><i class="fa fa-user fa-2x"></i></div>
+                                        <div class="h5 font-w300 text-muted">{:config('adminuser')}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <!-- END Author of the Month -->
+
+
+                    </div>
+                </div>
+
+
+{/block}

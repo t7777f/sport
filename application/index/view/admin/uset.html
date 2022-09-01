@@ -1,0 +1,77 @@
+{extend name="admin/base"/}
+{block name="title"}修改用户-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                修改用户
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>仪表盘</li>
+                <li><a class="link-effect" href="">修改用户</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="col-md-12 col-xs-12">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">修改用户</h3>
+            </div>
+            <div class="panel-body">
+                <form id="set" onclick="return;">
+                    <input type="hidden" name="uid" value="{$row.uid}">
+                    <div class="input-group">
+                        <div class="input-group-addon">用户名</div>
+                        <input type="text" class="form-control" value="{$row.user}" disabled="">
+                    </div><br>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">QQ</div>
+                        <input type="text" class="form-control" value="{$row.qq}" id="qq" name="qq">
+                    </div><br>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">状态</div>
+                        <select class="form-control" name="active">
+                            <option value="1" selected="">正常</option>
+                            <option value="0">禁用</option>
+                        </select>
+                    </div><br>
+                    <div class="input-group">
+                        <div class="input-group-addon">密码</div>
+                        <input type="text" class="form-control" id="pwd" name="pwd" placeholder="不修改为空">
+                    </div><br>
+                    <a class="btn btn-info btn-block" onclick="setuser();">保存</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="foot"}
+<script type="text/javascript">
+    function setuser(){
+        layer.load();
+        $.ajax({
+            type:"post",
+            url:"{:url('uset')}",
+            data:$('#set').serialize(),
+            dataType:"json",
+            success:function(data){
+                layer.close(layer.load());
+                if(data.code==0){
+                    layer.msg(data.msg,{icon:1,shade:0.3});
+                    //$("#href").attr('href','{:url('ulist')}').click();
+                }else{
+                    layer.alert(data.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}

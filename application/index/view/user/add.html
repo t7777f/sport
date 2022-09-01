@@ -1,0 +1,114 @@
+{extend name="user/base"/}
+{block name="title"}添加账号-{:config('title')}{/block}
+{block name="main"}
+<div class="content bg-gray-lighter">
+    <div class="row items-push">
+        <div class="col-sm-7">
+            <h1 class="page-heading">
+                添加账号
+            </h1>
+        </div>
+        <div class="col-sm-5 text-right hidden-xs">
+            <ol class="breadcrumb push-10-t">
+                <li>仪表盘</li>
+                <li><a class="link-effect" href="">添加账号</a></li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <style>
+        .banner_logo {
+            width: 100%;
+        }
+    </style>
+    <div class="col-sm-6 col-lg-6">
+        <a class="block" href="javascript:void(0)">
+            <div class="block-header">
+                <h3 class="block-title">添加公告</h3>
+            </div>
+            <div class="block-content">
+                <div class="block">
+                    {:config('addgg')}
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        <a class="block" href="javascript:void(0)">
+            <div class="block-header">
+                <h3 class="block-title">添加账号</h3>
+            </div>
+            <div class="block-content">
+                <div class="text-center push-10-t push-30" id="banner_logo">
+                    <img class="banner_logo" src="/static/user/img/mi.png" alt="">
+                </div>
+                <div class="form-horizontal push-10">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="form-material">
+                                <select class="form-control" id="type" name="type">
+                                    <option value="1">小米运动</option>
+                                    <option value="2">乐心健康</option>
+                                </select>
+                                <label>账号类型</label>
+                            </div>
+                        </div>
+                        <br><br><br><br>
+                        <div class="col-xs-12">
+                            <div class="form-material">
+                                <input class="form-control" type="text" id="uin" name="uin" placeholder="请输入账号..">
+                                <label>账号</label>
+                            </div>
+                        </div><br><br><br><br>
+                        <div class="col-xs-12">
+                            <div class="form-material">
+                                <input class="form-control" type="password" id="pwd" name="pwd" placeholder="请输入密码..">
+                                <label>密码</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <button class="btn btn-sm btn-primary" type="submit" id="submit"><i class="fa fa-arrow-right push-5-r"></i> 添 加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{/block}
+{block name="foot"}
+<script type="text/javascript">
+    $('#type').change(function (){
+        var select_type = $('#type').val();
+        if(select_type == '1'){
+            $('#banner_logo').html("<img class=\"banner_logo\" src=\"/static/user/img/mi.png\">");
+        }
+        if(select_type == '2'){
+            $('#banner_logo').html("<img class=\"banner_logo\" src=\"/static/user/img/le.png\">");
+        }
+    });
+    $("#submit").click(function(){
+        layer.load();
+        $.ajax({
+            type:"post",
+            url:"/ajax?act=add",
+            data:{
+                'type': $('#type').val(),uin:$("#uin").val(),pwd:$("#pwd").val()
+            },
+            dataType:"json",
+            success:function(data){
+                layer.close(layer.load());
+                if(data.code==0){
+                    layer.msg(data.msg,{icon:1,shade:0.3});
+                    setTimeout("top.location.href = '/user/uinlist'",3000);
+                }else{
+                    layer.alert(data.msg);
+                }
+            }
+        });
+    });
+</script>
+{/block}
