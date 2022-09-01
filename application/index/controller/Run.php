@@ -20,8 +20,8 @@ class Run extends Base
     
     public function run()
     {
-        $user = 19954446510;
-        $pass = 'cjh839214675';
+        $user = $phone;
+        $pass = '**********';
         $count = 18321;
         $t = $this-> get_time();
         $res = $this->xmshuabu($t,$user,$pass,$count);
